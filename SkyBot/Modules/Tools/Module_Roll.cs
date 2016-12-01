@@ -12,6 +12,7 @@ namespace SkyBot.Modules.Tools
         public Module_Roll()
         {
             ID = ModuleList.Roll;
+            UsableBy = APIList.All;
 
             random = new Random();
         }

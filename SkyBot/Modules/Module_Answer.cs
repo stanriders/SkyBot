@@ -15,6 +15,7 @@ namespace SkyBot.Modules
         public Module_Answer()
         {
             ID = ModuleList.Answer;
+            UsableBy = APIList.All;
 
             connection = new SQLiteConnection("Data Source=" + db_filename + ";Version=3;");
         }
@@ -33,7 +34,7 @@ namespace SkyBot.Modules
                 connection.Close();
             connection.Open();
 
-            SQLiteCommand sql_cmd = new SQLiteCommand("SELECT * FROM 'words' WHERE (message='" + msg + "')", connection);
+            using (SQLiteCommand sql_cmd = new SQLiteCommand("SELECT * FROM 'words' WHERE (message='" + msg + "')", connection))
             using (SQLiteDataReader reader = sql_cmd.ExecuteReader())
             {
                 List<string> answers = new List<string>();

@@ -2,6 +2,7 @@
 
 using System;
 using System.Timers;
+using System.Threading;
 using System.Collections.Generic;
 using VkNet;
 using VkNet.Exception;
@@ -16,7 +17,7 @@ namespace SkyBot.APIs
     class API_VK : IConnectionAPI
     {
         private VkApi api;
-        private static Timer receiveTimer = new Timer(5000);
+        private static System.Timers.Timer receiveTimer = new System.Timers.Timer(5000);
 
         private long appId;
         private string login;
@@ -58,14 +59,19 @@ namespace SkyBot.APIs
 
         public override bool Connect(SkyBot handle)
         {
-            Status = APIStatus.Connecting;
             base.Connect(handle);
-            
+
+            Status = APIStatus.Connecting;
+            Parent.Interface.vkStatus.Text = Status.ToString();
+            Parent.Interface.vkStatus.ForeColor = System.Drawing.Color.Yellow;
+
             bool result = Authorize();
 
             if (result)
             {
                 Status = APIStatus.Connected;
+                Parent.Interface.vkStatus.Text = Status.ToString();
+                Parent.Interface.vkStatus.ForeColor = System.Drawing.Color.Green;
                 receiveTimer.Enabled = true;
             }
             return result;
@@ -75,7 +81,11 @@ namespace SkyBot.APIs
         {
             receiveTimer.Enabled = false;
             Status = APIStatus.Disabled;
-            throw new NotImplementedException();
+            Parent.Interface.vkStatus.Text = Status.ToString();
+            Parent.Interface.vkStatus.ForeColor = System.Drawing.Color.Red;
+
+            api = new VkApi();
+            return true;
         }
 
         private void ReceiveMessages(object source, ElapsedEventArgs e)

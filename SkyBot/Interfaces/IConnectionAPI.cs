@@ -4,7 +4,7 @@ namespace SkyBot
 {
     abstract public class IConnectionAPI
     {
-        public APIStatus Status;
+        public APIStatus Status = APIStatus.Disabled;
         public APIList ID;
         public SkyBot Parent;
 
@@ -20,10 +20,12 @@ namespace SkyBot
 
     public enum APIList
     {
-        Skype,
-        VK,
-        Telegram,
-        Test
+        None = 0x0,
+        Skype = 0x1,
+        VK = 0x2,
+        Telegram = 0x4,
+        Test = 0x8,
+        All = Skype | VK | Telegram | Test
     }
 
     public enum APIStatus

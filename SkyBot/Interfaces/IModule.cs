@@ -5,6 +5,7 @@ namespace SkyBot
     abstract public class IModule
     {
         public ModuleList ID;
+        public APIList UsableBy = APIList.None;
 
         abstract public string ProcessMessage(string msg);
     }
@@ -13,7 +14,6 @@ namespace SkyBot
     {
         Answer,
         Roll,
-        Youtube,
         Xyu,
         Test
     }

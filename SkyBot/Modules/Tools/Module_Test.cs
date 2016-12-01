@@ -9,6 +9,7 @@ namespace SkyBot.Modules.Tools
         public Module_Test()
         {
             ID = ModuleList.Test;
+            UsableBy = APIList.All;
 
             configTest1 = Config.Instance.Read("Main", "dick");
 

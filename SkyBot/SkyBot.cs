@@ -10,16 +10,19 @@ namespace SkyBot
 {
     public class SkyBot
     {
+        public MainForm Interface;
         public List<IConnectionAPI> APIs = new List<IConnectionAPI>();
         public List<IModule> Modules = new List<IModule>();
 
-        public SkyBot()
+        public SkyBot(MainForm form)
         {
+            Interface = form;
             Config.Instance.Path = System.Windows.Forms.Application.StartupPath + "\\config.ini";
 
             // FIXME: make better way of adding modules
             APIs.Add(new API_Test());
             APIs.Add(new API_Skype());
+            APIs.Add(new API_Telegram());
             APIs.Add(new API_VK());
             
             //Modules.Add(new Module_Test());
@@ -45,7 +48,8 @@ namespace SkyBot
 
             foreach (IModule module in Modules)
             {
-                result += module.ProcessMessage(msg);
+                if ((module.UsableBy & api.ID) == api.ID)
+                    result += module.ProcessMessage(msg);
             }
 
             if (result != string.Empty)
