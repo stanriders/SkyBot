@@ -14,6 +14,7 @@ namespace SkyBot
     {
         Answer,
         Roll,
+        BasicCommands,
         Xyu,
         Test
     }

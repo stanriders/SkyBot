@@ -1,8 +1,6 @@
 ﻿// Skybot 2013-2016
 
-using System;
 using System.Timers;
-using System.Threading;
 using System.Collections.Generic;
 using VkNet;
 using VkNet.Exception;
@@ -17,11 +15,13 @@ namespace SkyBot.APIs
     class API_VK : IConnectionAPI
     {
         private VkApi api;
-        private static System.Timers.Timer receiveTimer = new System.Timers.Timer(5000);
+        private static Timer receiveTimer = new Timer(5000);
 
         private long appId;
         private string login;
         private string password;
+
+        private long? lastMessage;
 
         public API_VK()
         {
@@ -35,9 +35,9 @@ namespace SkyBot.APIs
         }
         private bool Authorize()
         {
-            appId = long.Parse(Config.Instance.Read("VK", "appID"));
-            login = Config.Instance.Read("VK", "login");
-            password = Config.Instance.Read("VK", "password");
+            appId = long.Parse(Config.Read("VK", "appID"));
+            login = Config.Read("VK", "login");
+            password = Config.Read("VK", "password");
 
             try
             {
@@ -49,9 +49,9 @@ namespace SkyBot.APIs
                     Settings = VkNet.Enums.Filters.Settings.Messages
                 });
             }
-            catch (VkApiAuthorizationException ex)
+            catch (VkApiException ex)
             {
-                System.Windows.Forms.MessageBox.Show("Incorrect auth info! " + ex.Message);
+                ExceptionCollector.Error( ex.Message );
                 return false;
             }
             return true;
@@ -90,43 +90,56 @@ namespace SkyBot.APIs
 
         private void ReceiveMessages(object source, ElapsedEventArgs e)
         {
-            MessagesGetObject result = api.Messages.Get(new MessagesGetParams
+            MessagesGetObject result;
+            try
             {
-                Out = 0,
-                TimeOffset = 5,
-                Count = 5
-            });
+                result = api.Messages.Get(new MessagesGetParams
+                {
+                    Out = 0,
+                    TimeOffset = 5,
+                    Count = 5
+                });
+            }
+            catch (VkApiException ex)
+            {
+                ExceptionCollector.Error( ex.Message );
+                return;
+            }
 
             ICollection<Message> messages = result.Messages;
             if (messages.Count > 0)
             {
                 foreach (Message msg in messages)
                 {
-                    if (msg.ChatId != null)
+                    if (msg.Id != lastMessage)
                     {
-                        Parent.ProcessMessage(msg.Body, this, (long)msg.ChatId);
-                    }
-                    else
-                    {
-                        Parent.ProcessMessage(msg.Body, this, (long)msg.UserId);
+                        if (msg.ChatId != null)
+                        {
+                            Parent.ProcessMessage(msg.Body, this, (long)msg.ChatId);
+                        }
+                        else
+                        {
+                            Parent.ProcessMessage(msg.Body, this, (long)msg.UserId);
+                        }
+                        lastMessage = msg.Id;
                     }
                 }
             }
         }
 
-        public override bool SendMessage(string message, long receiver)
+        public override bool SendMessage(string message, object receiver)
         {
             try
             {
                 api.Messages.Send(new MessagesSendParams
                 {
-                    ChatId = receiver,
+                    ChatId = (long)receiver,
                     Message = message,
                 });
             }
             catch (VkApiException ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+                ExceptionCollector.Error(ex.Message);
                 return false;
             }
 

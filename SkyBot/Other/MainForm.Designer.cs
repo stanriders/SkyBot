@@ -48,8 +48,16 @@
             this.tgSave = new System.Windows.Forms.Button();
             this.tgToken = new System.Windows.Forms.TextBox();
             this.tgStatus = new System.Windows.Forms.Label();
+            this.debugText = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.discordSave = new System.Windows.Forms.Button();
+            this.discordToken = new System.Windows.Forms.TextBox();
+            this.discordStatus = new System.Windows.Forms.Label();
+            this.enableDiscord = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // enableSkype
@@ -196,7 +204,7 @@
             this.moduleList.Name = "moduleList";
             this.moduleList.ScrollAlwaysVisible = true;
             this.moduleList.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.moduleList.Size = new System.Drawing.Size(120, 160);
+            this.moduleList.Size = new System.Drawing.Size(120, 225);
             this.moduleList.TabIndex = 12;
             // 
             // l4
@@ -258,11 +266,85 @@
             this.tgStatus.TabIndex = 3;
             this.tgStatus.Text = "Disabled";
             // 
+            // debugText
+            // 
+            this.debugText.Location = new System.Drawing.Point(13, 259);
+            this.debugText.MaxLength = 65534;
+            this.debugText.Multiline = true;
+            this.debugText.Name = "debugText";
+            this.debugText.ReadOnly = true;
+            this.debugText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.debugText.Size = new System.Drawing.Size(510, 119);
+            this.debugText.TabIndex = 16;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.discordSave);
+            this.groupBox3.Controls.Add(this.discordToken);
+            this.groupBox3.Controls.Add(this.discordStatus);
+            this.groupBox3.Controls.Add(this.enableDiscord);
+            this.groupBox3.Location = new System.Drawing.Point(13, 185);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(384, 68);
+            this.groupBox3.TabIndex = 17;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Discord";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(71, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(76, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Access Token";
+            // 
+            // discordSave
+            // 
+            this.discordSave.Location = new System.Drawing.Point(309, 34);
+            this.discordSave.Name = "discordSave";
+            this.discordSave.Size = new System.Drawing.Size(59, 23);
+            this.discordSave.TabIndex = 5;
+            this.discordSave.Text = "Save";
+            this.discordSave.UseVisualStyleBackColor = true;
+            this.discordSave.Click += new System.EventHandler(this.discordSave_Click);
+            // 
+            // discordToken
+            // 
+            this.discordToken.Location = new System.Drawing.Point(71, 36);
+            this.discordToken.Name = "discordToken";
+            this.discordToken.Size = new System.Drawing.Size(232, 20);
+            this.discordToken.TabIndex = 4;
+            // 
+            // discordStatus
+            // 
+            this.discordStatus.AutoSize = true;
+            this.discordStatus.ForeColor = System.Drawing.Color.Red;
+            this.discordStatus.Location = new System.Drawing.Point(3, 39);
+            this.discordStatus.Name = "discordStatus";
+            this.discordStatus.Size = new System.Drawing.Size(48, 13);
+            this.discordStatus.TabIndex = 3;
+            this.discordStatus.Text = "Disabled";
+            // 
+            // enableDiscord
+            // 
+            this.enableDiscord.AutoSize = true;
+            this.enableDiscord.Location = new System.Drawing.Point(6, 19);
+            this.enableDiscord.Name = "enableDiscord";
+            this.enableDiscord.Size = new System.Drawing.Size(59, 17);
+            this.enableDiscord.TabIndex = 2;
+            this.enableDiscord.Text = "Enable";
+            this.enableDiscord.UseVisualStyleBackColor = true;
+            this.enableDiscord.CheckedChanged += new System.EventHandler(this.enableDiscord_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(529, 191);
+            this.ClientSize = new System.Drawing.Size(531, 386);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.debugText);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.l4);
             this.Controls.Add(this.moduleList);
@@ -276,6 +358,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,6 +387,13 @@
         private System.Windows.Forms.Button tgSave;
         private System.Windows.Forms.TextBox tgToken;
         public System.Windows.Forms.Label tgStatus;
+        public System.Windows.Forms.TextBox debugText;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button discordSave;
+        private System.Windows.Forms.TextBox discordToken;
+        public System.Windows.Forms.Label discordStatus;
+        private System.Windows.Forms.CheckBox enableDiscord;
     }
 }
 

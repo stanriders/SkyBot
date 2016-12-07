@@ -43,7 +43,7 @@ namespace SkyBot.APIs
             throw new NotImplementedException();
         }
 
-        public override bool SendMessage(string message, long receiver)
+        public override bool SendMessage(string message, object receiver)
         {
             throw new NotImplementedException();
         }

@@ -12,17 +12,20 @@ namespace SkyBot
         public MainForm()
         {
             InitializeComponent();
+            ExceptionCollector.Form = this;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             Skybot = new SkyBot( this );
 
-            vkAppID.Text = Config.Instance.Read("VK", "appID");
-            vkLogin.Text = Config.Instance.Read("VK", "login");
-            vkPassword.Text = Config.Instance.Read("VK", "password");
+            vkAppID.Text = Config.Read("VK", "appID");
+            vkLogin.Text = Config.Read("VK", "login");
+            vkPassword.Text = Config.Read("VK", "password");
 
-            tgToken.Text = Config.Instance.Read("Telegram", "token");
+            tgToken.Text = Config.Read("Telegram", "token");
+
+            discordToken.Text = Config.Read("Discord", "token");
 
             foreach (IModule module in Skybot.Modules)
                 moduleList.Items.Add(module.ID);
@@ -52,13 +55,6 @@ namespace SkyBot
                 Skybot.DisableAPI(APIList.VK);
         }
 
-        private void vkSave_Click(object sender, EventArgs e)
-        {
-            Config.Instance.Write("VK", "appID", vkAppID.Text);
-            Config.Instance.Write("VK", "login", vkLogin.Text);
-            Config.Instance.Write("VK", "password", vkPassword.Text);
-        }
-
         private void enableTelegram_CheckedChanged(object sender, EventArgs e)
         {
             if (enableTelegram.Checked)
@@ -67,9 +63,29 @@ namespace SkyBot
                 Skybot.DisableAPI(APIList.Telegram);
         }
 
+        private void enableDiscord_CheckedChanged(object sender, EventArgs e)
+        {
+            if (enableDiscord.Checked)
+                Skybot.EnableAPI(APIList.Discord);
+            else
+                Skybot.DisableAPI(APIList.Discord);
+        }
+
+        private void vkSave_Click(object sender, EventArgs e)
+        {
+            Config.Write("VK", "appID", vkAppID.Text);
+            Config.Write("VK", "login", vkLogin.Text);
+            Config.Write("VK", "password", vkPassword.Text);
+        }
+
         private void tgSave_Click(object sender, EventArgs e)
         {
-            Config.Instance.Write("Telegram", "token", tgToken.Text);
+            Config.Write("Telegram", "token", tgToken.Text);
+        }
+
+        private void discordSave_Click(object sender, EventArgs e)
+        {
+            Config.Write("Discord", "token", discordToken.Text);
         }
     }
 }

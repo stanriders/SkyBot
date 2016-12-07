@@ -47,7 +47,7 @@ namespace SkyBot.APIs
             else
                 Parent.ProcessMessage("хуй", this, 0);
         }
-        public override bool SendMessage(string message, long receiver)
+        public override bool SendMessage(string message, object receiver)
         {
             System.Windows.Forms.MessageBox.Show(message);
             return true;

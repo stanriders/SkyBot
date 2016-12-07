@@ -1,5 +1,6 @@
 ﻿// Skybot 2013-2016
 
+using System;
 using System.Collections.Generic;
 
 using SkyBot.APIs;
@@ -14,20 +15,24 @@ namespace SkyBot
         public List<IConnectionAPI> APIs = new List<IConnectionAPI>();
         public List<IModule> Modules = new List<IModule>();
 
+        public readonly DateTime startup_time = DateTime.Now;
+
         public SkyBot(MainForm form)
         {
             Interface = form;
-            Config.Instance.Path = System.Windows.Forms.Application.StartupPath + "\\config.ini";
+            Config.Path = System.Windows.Forms.Application.StartupPath + "\\config.ini";
 
             // FIXME: make better way of adding modules
             APIs.Add(new API_Test());
             APIs.Add(new API_Skype());
             APIs.Add(new API_Telegram());
+            APIs.Add(new API_Discord());
             APIs.Add(new API_VK());
             
             //Modules.Add(new Module_Test());
             Modules.Add(new Module_Answer());
             Modules.Add(new Module_Roll());
+            Modules.Add(new Module_BasicCommands(this));
         }
 
         public void EnableAPI(APIList id)
@@ -42,7 +47,7 @@ namespace SkyBot
             api?.Disconnect();
         }
 
-        public void ProcessMessage( string msg, IConnectionAPI api, long source )
+        public void ProcessMessage( string msg, IConnectionAPI api, object source )
         {
             string result = string.Empty;
 

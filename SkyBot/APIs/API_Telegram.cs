@@ -1,5 +1,6 @@
 ﻿// Skybot 2013-2016
 
+using System;
 using System.Threading;
 
 using Telegram.Bot;
@@ -18,7 +19,7 @@ namespace SkyBot.APIs
         public static string token = string.Empty;
         public static TelegramBotClient api;
 
-        Thread receiveThread;
+        private Thread receiveThread;
 
         public API_Telegram()
         {
@@ -32,15 +33,30 @@ namespace SkyBot.APIs
             Parent.Interface.tgStatus.Text = Status.ToString();
             Parent.Interface.tgStatus.ForeColor = System.Drawing.Color.Yellow;
 
-            token = Config.Instance.Read("Telegram", "token");
+            token = Config.Read("Telegram", "token");
 
-            // its outside of constructor to make creating child tg bots easier
-            api = new TelegramBotClient(token);
+            try
+            {
+                // its outside of constructor to make creating child tg bots easier
+                api = new TelegramBotClient(token);
 
-            api.OnMessage += ReceiveMessage;
+                api.OnMessage += ReceiveMessage;
+            }
+            catch (Exception ex)
+            {
+                ExceptionCollector.Error(ex.Message);
+            }
+        
             receiveThread = new Thread( delegate()
             {
-                api.StartReceiving();
+                try
+                { 
+                    api.StartReceiving();
+                }
+                catch (Exception ex)
+                {
+                    ExceptionCollector.Error(ex.Message);
+                }
             });
             receiveThread.Start();
 
@@ -73,9 +89,9 @@ namespace SkyBot.APIs
 
             Parent.ProcessMessage(msg.Text, this, msg.Chat.Id);
         }
-        public override bool SendMessage(string message, long receiver)
+        public override bool SendMessage(string message, object receiver)
         {
-            api.SendTextMessageAsync(receiver, message);
+            api.SendTextMessageAsync((long)receiver, message);
             return true;
         }
     }

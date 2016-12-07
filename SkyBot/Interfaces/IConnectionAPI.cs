@@ -15,17 +15,18 @@ namespace SkyBot
         }
         public abstract bool Disconnect();
 
-        public abstract bool SendMessage(string message, long receiver);
+        public abstract bool SendMessage(string message, object receiver);
     }
 
     public enum APIList
     {
-        None = 0x0,
-        Skype = 0x1,
-        VK = 0x2,
-        Telegram = 0x4,
-        Test = 0x8,
-        All = Skype | VK | Telegram | Test
+        None = 0,
+        Skype = 1 << 0,
+        VK = 1 << 1,
+        Telegram = 1 << 2,
+        Discord = 1 << 3,
+        Test = 1 << 4,
+        All = Skype | VK | Telegram | Discord | Test
     }
 
     public enum APIStatus
