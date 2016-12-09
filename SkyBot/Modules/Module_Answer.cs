@@ -10,12 +10,15 @@ namespace SkyBot.Modules
     class Module_Answer : IModule
     {
         private SQLiteConnection connection;
-        private string db_filename = System.Windows.Forms.Application.StartupPath + "\\plugins\\dictionary\\mainbase.db";
+        private string db_filename;
 
         public Module_Answer()
         {
             ID = ModuleList.Answer;
             UsableBy = APIList.All;
+
+            Configurables.Add("dbpath");
+            db_filename = Config.Read(ID.ToString(), "dbpath");
 
             connection = new SQLiteConnection("Data Source=" + db_filename + ";Version=3;");
         }
@@ -29,6 +32,13 @@ namespace SkyBot.Modules
             string result = string.Empty;
 
             msg.ToLower();
+
+            // updating config
+            if (Config.Read(ID.ToString(), "dbpath") != db_filename)
+            {
+                db_filename = Config.Read(ID.ToString(), "dbpath");
+                connection = new SQLiteConnection("Data Source=" + db_filename + ";Version=3;");
+            }
 
             if (connection.State != System.Data.ConnectionState.Closed)
                 connection.Close();

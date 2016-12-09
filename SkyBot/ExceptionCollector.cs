@@ -1,5 +1,6 @@
 ﻿// Skybot 2013-2016
 
+using System;
 using System.Windows.Forms;
 
 namespace SkyBot
@@ -13,11 +14,11 @@ namespace SkyBot
             {
                 Form.Invoke((MethodInvoker)delegate
                 {
-                    Form.debugText.Text += text + "\n";
+                    Form.debugText.Text += "(" + DateTime.Now + ") " + text + Environment.NewLine;
                 });
             }
             else
-                Form.debugText.Text += text + "\n";
+                Form.debugText.Text += "(" + DateTime.Now + ") " + text + Environment.NewLine;
         }
     }
 }

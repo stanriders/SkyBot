@@ -1,5 +1,6 @@
 ﻿// Skybot 2013-2016
 
+using System;
 using System.Timers;
 using System.Collections.Generic;
 using VkNet;
@@ -51,7 +52,7 @@ namespace SkyBot.APIs
             }
             catch (VkApiException ex)
             {
-                ExceptionCollector.Error( ex.Message );
+                ProcessException(ex);
                 return false;
             }
             return true;
@@ -102,7 +103,7 @@ namespace SkyBot.APIs
             }
             catch (VkApiException ex)
             {
-                ExceptionCollector.Error( ex.Message );
+                ProcessException(ex);
                 return;
             }
 
@@ -139,11 +140,22 @@ namespace SkyBot.APIs
             }
             catch (VkApiException ex)
             {
-                ExceptionCollector.Error(ex.Message);
+                ProcessException(ex);
                 return false;
             }
 
             return true;
+        }
+
+        private void ProcessException( Exception e )
+        {
+            if (e.Message.Contains("User authorization failed: access_token has expired"))
+            {
+                // reconnect
+                Disconnect();
+                Connect(Parent);
+            }
+            ExceptionCollector.Error(e.Message);
         }
     }
 }

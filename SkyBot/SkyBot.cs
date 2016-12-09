@@ -33,6 +33,7 @@ namespace SkyBot
             Modules.Add(new Module_Answer());
             Modules.Add(new Module_Roll());
             Modules.Add(new Module_BasicCommands(this));
+            //Modules.Add(new Module_Discord_Announcer(APIs.Find(x => (x.ID == APIList.Discord))));
         }
 
         public void EnableAPI(APIList id)

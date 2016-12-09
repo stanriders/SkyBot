@@ -14,7 +14,7 @@ namespace SkyBot.APIs
     {
         public string token;
 
-        private DiscordClient api;
+        public DiscordClient api;
 
         public API_Discord()
         {

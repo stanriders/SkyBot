@@ -87,5 +87,63 @@ namespace SkyBot
         {
             Config.Write("Discord", "token", discordToken.Text);
         }
+
+        private void moduleList_DoubleClick(object sender, EventArgs e)
+        {
+            if (moduleList.SelectedItem != null)
+            {
+                IModule module = Skybot.Modules.Find(m => m.ID.ToString() == moduleList.SelectedItem.ToString());
+                CreateConfigForm(module);
+            }
+        }
+
+        private void CreateConfigForm(IModule module)
+        {
+            int configurablesCount = module.Configurables.Count;
+            if (configurablesCount > 0)
+            {
+                Form config = new Form()
+                {
+                    Width = 335,
+                    Text = module.ID.ToString() + " Config",
+                };
+                for (int i = 0; i < configurablesCount; i++)
+                {
+                    config.Controls.Add(new Label
+                    {
+                        AutoSize = true,
+                        Location = new System.Drawing.Point(10, 10 + i * 40),
+                        Text = module.Configurables[i]
+                    });
+                    config.Controls.Add(new TextBox
+                    {
+                        Width = 300,
+                        Height = 20,
+                        Location = new System.Drawing.Point(10, 25 + i * 40),
+                        Name = module.Configurables[i],
+                        Text = Config.Read(module.ID.ToString(), module.Configurables[i])
+                    });
+                }
+                Button savebutton;
+                config.Controls.Add(savebutton = new Button
+                {
+                    Width = 75,
+                    Height = 25,
+                    Location = new System.Drawing.Point(10, 10 + configurablesCount * 40),
+                    Text = "Save"
+                });
+                savebutton.Click += delegate (object sender, EventArgs e)
+                {
+                    foreach (Control t in config.Controls)
+                    {
+                        if (t is TextBox)
+                            Config.Write(module.ID.ToString(), t.Name, t.Text);
+                    }
+                    config.Close();
+                };
+                config.Height = 85 + configurablesCount * 40;
+                config.Show();
+            }
+        }
     }
 }

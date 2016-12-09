@@ -202,10 +202,10 @@
             this.moduleList.FormattingEnabled = true;
             this.moduleList.Location = new System.Drawing.Point(403, 25);
             this.moduleList.Name = "moduleList";
-            this.moduleList.ScrollAlwaysVisible = true;
-            this.moduleList.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.moduleList.Size = new System.Drawing.Size(120, 225);
+            this.moduleList.Sorted = true;
             this.moduleList.TabIndex = 12;
+            this.moduleList.DoubleClick += new System.EventHandler(this.moduleList_DoubleClick);
             // 
             // l4
             // 
