@@ -155,7 +155,7 @@ namespace SkyBot.APIs
                 Disconnect();
                 Connect(Parent);
             }
-            ExceptionCollector.Error(e.Message);
+            InformationCollector.Error(this, e.Message);
         }
     }
 }

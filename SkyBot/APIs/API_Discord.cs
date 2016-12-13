@@ -35,11 +35,12 @@ namespace SkyBot.APIs
                 api.MessageReceived += new EventHandler<DiscordMessageEventArgs>(ReceiveMessages);
                 api.SendLoginRequest();
                 api.Connect();
+                api.Autoconnect = true;
                 result = true;
             }
             catch (Exception ex)
             {
-                ExceptionCollector.Error(ex.Message);
+                InformationCollector.Error(this, ex.Message);
                 return false;
             }
 
@@ -74,7 +75,7 @@ namespace SkyBot.APIs
             }
             catch (Exception ex)
             {
-                ExceptionCollector.Error(ex.Message);
+                InformationCollector.Error(this, ex.Message);
                 return false;
             }
             return true;

@@ -44,18 +44,19 @@ namespace SkyBot.APIs
             }
             catch (Exception ex)
             {
-                ExceptionCollector.Error(ex.Message);
+                InformationCollector.Error(this, ex.Message);
             }
         
             receiveThread = new Thread( delegate()
             {
                 try
-                { 
+                {
+                    api.TestApiAsync();
                     api.StartReceiving();
                 }
                 catch (Exception ex)
                 {
-                    ExceptionCollector.Error(ex.Message);
+                    InformationCollector.Error(this, ex.Message);
                 }
             });
             receiveThread.Start();
@@ -66,6 +67,11 @@ namespace SkyBot.APIs
                 Status = APIStatus.Connected;
                 Parent.Interface.tgStatus.Text = Status.ToString();
                 Parent.Interface.tgStatus.ForeColor = System.Drawing.Color.Green;
+            }
+            else
+            {
+                InformationCollector.Error(this, "receiveThread is NOT alive!");
+                Disconnect();
             }
 
             return result;
@@ -85,7 +91,8 @@ namespace SkyBot.APIs
         {
             Message msg = messageEventArgs.Message;
 
-            if (msg == null || msg.Type != MessageType.TextMessage) return;
+            if (msg == null || msg.Type != MessageType.TextMessage)
+                return;
 
             Parent.ProcessMessage(msg.Text, this, msg.Chat.Id);
         }

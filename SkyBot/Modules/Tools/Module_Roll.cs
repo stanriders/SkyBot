@@ -7,14 +7,10 @@ namespace SkyBot.Modules.Tools
 {
     class Module_Roll : IModule
     {
-        private Random random;
-
         public Module_Roll()
         {
             ID = ModuleList.Roll;
             UsableBy = APIList.All;
-
-            random = new Random();
         }
         public override string ProcessMessage(string msg)
         {
@@ -23,19 +19,27 @@ namespace SkyBot.Modules.Tools
             if (Regex.IsMatch(msg, @"^\dd\d+$", RegexOptions.IgnoreCase))
             {
                 Match myMatch = Regex.Match(msg, @"(^\d)d(\d+$)");
-                if (int.Parse(myMatch.Groups[1].Value) <= 10 && int.Parse(myMatch.Groups[2].Value) <= 32767) // ограничения: максимум роллов - 10, максимальное число рандома - 32767
+                try
                 {
-                    for (int i = 1; i <= int.Parse(myMatch.Groups[1].Value);)
+                    if (short.Parse(myMatch.Groups[1].Value) <= 10 && int.Parse(myMatch.Groups[2].Value) <= int.MaxValue) // ограничения: максимум роллов - 10, максимальное число рандома - int.MaxValue
                     {
-                        string diceresult = random.Next(1, int.Parse(myMatch.Groups[2].Value) + 1).ToString();
-                        result += i + " ролл, " + "результат: " + diceresult + "\n";
-                        i++;
+                        for (int i = 1; i <= short.Parse(myMatch.Groups[1].Value);)
+                        {
+                            string diceresult = RNG.Next(1, int.Parse(myMatch.Groups[2].Value) + 1).ToString();
+                            result += i + " ролл, " + "результат: " + diceresult + "\n";
+                            i++;
+                        }
+                        return result;
                     }
-                    return result;
+                    else
+                    {
+                        return "Не знаю таких чисел.";
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    return "Не знаю таких чисел.";
+                    InformationCollector.Error(this, e.Message);
+                    return "Нихуя ты загнул.";
                 }
             }
             return result; // should never happen

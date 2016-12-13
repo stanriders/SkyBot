@@ -1,6 +1,5 @@
 ﻿// Skybot 2013-2016
 
-using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 
@@ -62,8 +61,7 @@ namespace SkyBot.Modules
                         result = answers[0];
                     else
                     {
-                        Random rnd = new Random();
-                        result = answers[rnd.Next(0, answers.Count)];
+                        result = answers[RNG.Next(0, answers.Count)];
                     }
                 }
             }

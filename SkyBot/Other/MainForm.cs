@@ -12,7 +12,7 @@ namespace SkyBot
         public MainForm()
         {
             InitializeComponent();
-            ExceptionCollector.Form = this;
+            InformationCollector.Form = this;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
