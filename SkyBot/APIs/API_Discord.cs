@@ -1,4 +1,4 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 using System;
 using DSharpPlus;
@@ -47,8 +47,8 @@ namespace SkyBot.APIs
             if (result)
             {
                 Status = APIStatus.Connected;
-                Parent.Interface.discordStatus.Text = Status.ToString();
-                Parent.Interface.discordStatus.ForeColor = System.Drawing.Color.Green;
+                Parent.UI.discordStatus.Text = Status.ToString();
+                Parent.UI.discordStatus.ForeColor = System.Drawing.Color.Green;
             }
 
             return result;
@@ -58,14 +58,20 @@ namespace SkyBot.APIs
             api.Logout();
 
             Status = APIStatus.Disabled;
-            Parent.Interface.discordStatus.Text = Status.ToString();
-            Parent.Interface.discordStatus.ForeColor = System.Drawing.Color.Red;
+            Parent.UI.discordStatus.Text = Status.ToString();
+            Parent.UI.discordStatus.ForeColor = System.Drawing.Color.Red;
 
             return true;
         }
         private void ReceiveMessages(object sender, DiscordMessageEventArgs e)
         {
-            Parent.ProcessMessage(e.MessageText, this, e.Channel);
+            Parent.ProcessMessage(new ReceivedMessage()
+            {
+                API = this,
+                Text = e.MessageText,
+                Sender = e.Channel,
+                APIMessageClass = e.Message
+            });
         }
         public override bool SendMessage(string message, object receiver)
         {

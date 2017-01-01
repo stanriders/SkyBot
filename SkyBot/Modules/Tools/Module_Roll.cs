@@ -1,4 +1,4 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 using System;
 using System.Text.RegularExpressions;
@@ -12,13 +12,13 @@ namespace SkyBot.Modules.Tools
             ID = ModuleList.Roll;
             UsableBy = APIList.All;
         }
-        public override string ProcessMessage(string msg)
+        public override string ProcessMessage(ReceivedMessage msg)
         {
             string result = string.Empty;
 
-            if (Regex.IsMatch(msg, @"^\dd\d+$", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(msg.Text, @"^\dd\d+$", RegexOptions.IgnoreCase))
             {
-                Match myMatch = Regex.Match(msg, @"(^\d)d(\d+$)");
+                Match myMatch = Regex.Match(msg.Text, @"(^\d)d(\d+$)");
                 try
                 {
                     if (short.Parse(myMatch.Groups[1].Value) <= 10 && int.Parse(myMatch.Groups[2].Value) <= int.MaxValue) // ограничения: максимум роллов - 10, максимальное число рандома - int.MaxValue

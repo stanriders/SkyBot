@@ -1,17 +1,13 @@
-﻿// Skybot 2013-2016
-
-using System.Collections.Generic;
+﻿// Skybot 2013-2017
 
 namespace SkyBot
 {
-    abstract public class IModule
+    abstract public class IModule : IConfigurable
     {
         public ModuleList ID;
         public APIList UsableBy = APIList.None;
 
-        public List<string> Configurables = new List<string>();
-
-        abstract public string ProcessMessage(string msg);
+        abstract public string ProcessMessage(ReceivedMessage msg);
     }
 
     public enum ModuleList
@@ -20,6 +16,7 @@ namespace SkyBot
         Roll,
         BasicCommands,
         Announcer,
+        Timer,
         Xyu,
         Test
     }

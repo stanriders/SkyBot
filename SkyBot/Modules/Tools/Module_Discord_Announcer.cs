@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Skybot 2013-2017
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
@@ -26,7 +28,7 @@ namespace SkyBot.Modules
         {
         }
 
-        public override string ProcessMessage(string msg)
+        public override string ProcessMessage(ReceivedMessage msg)
         {
             return string.Empty;
         }

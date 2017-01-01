@@ -113,15 +113,15 @@ namespace SkyBot
                     {
                         AutoSize = true,
                         Location = new System.Drawing.Point(10, 10 + i * 40),
-                        Text = module.Configurables[i]
+                        Text = module.Configurables[i].Name
                     });
                     config.Controls.Add(new TextBox
                     {
                         Width = 300,
                         Height = 20,
                         Location = new System.Drawing.Point(10, 25 + i * 40),
-                        Name = module.Configurables[i],
-                        Text = Config.Read(module.ID.ToString(), module.Configurables[i])
+                        Name = module.Configurables[i].Name,
+                        Text = module.Configurables[i].Value
                     });
                 }
                 Button savebutton;
@@ -137,7 +137,11 @@ namespace SkyBot
                     foreach (Control t in config.Controls)
                     {
                         if (t is TextBox)
-                            Config.Write(module.ID.ToString(), t.Name, t.Text);
+                        {
+                            Configurable conf = module.Configurables.Find(x => x.Name == t.Name);
+                            conf.Value = t.Text;
+                            //Config.Write(module.ID.ToString(), t.Name, t.Text);
+                        }
                     }
                     config.Close();
                 };

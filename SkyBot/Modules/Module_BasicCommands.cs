@@ -1,4 +1,4 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 namespace SkyBot.Modules
 {
@@ -12,15 +12,15 @@ namespace SkyBot.Modules
             ID = ModuleList.BasicCommands;
             UsableBy = APIList.All;
         }
-        public override string ProcessMessage(string msg)
+        public override string ProcessMessage(ReceivedMessage msg)
         {
             // only triggers
-            if (msg.IndexOf("!", 0, 1) >= 0)
+            if (msg.Text.IndexOf("!", 0, 1) >= 0)
             {
-                if (msg == "!help")
+                if (msg.Text == "!help")
                     return "Никто тебе не поможет";
 
-                else if (msg == "!status")
+                else if (msg.Text == "!status")
                     return Status();
 
                 else

@@ -1,4 +1,4 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 using System.Timers;
 
@@ -43,9 +43,22 @@ namespace SkyBot.APIs
             loopIndex++;
 
             if ((loopIndex % 2) == 0)
-                Parent.ProcessMessage("testmsg n" + loopIndex, this, 0);
+
+                Parent.ProcessMessage(new ReceivedMessage()
+                {
+                    API = this,
+                    Text = "testmsg n" + loopIndex,
+                    Sender = 0,
+                    APIMessageClass = 0
+                });
             else
-                Parent.ProcessMessage("хуй", this, 0);
+                Parent.ProcessMessage(new ReceivedMessage()
+                {
+                    API = this,
+                    Text = "хуй",
+                    Sender = 0,
+                    APIMessageClass = 0
+                });
         }
         public override bool SendMessage(string message, object receiver)
         {

@@ -119,10 +119,15 @@
     <Compile Include="APIs\API_Telegram.cs" />
     <Compile Include="APIs\API_Test.cs" />
     <Compile Include="APIs\API_VK.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="InformationCollector.cs" />
+    <Compile Include="ReceivedMessage.cs" />
+    <Compile Include="Other\Accessories.cs" />
+    <Compile Include="Other\Config.cs" />
+    <Compile Include="Other\InformationCollector.cs" />
+    <Compile Include="Interfaces\IConfigurable.cs" />
     <Compile Include="Modules\Module_BasicCommands.cs" />
     <None Include="Modules\Tools\Module_Discord_Announcer.cs" />
+    <Compile Include="Modules\Tools\Module_Timer.cs" />
+    <Compile Include="Modules\Tools\Module_Xyu.cs" />
     <Compile Include="Other\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,7 +138,7 @@
     <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Other\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RNG.cs" />
+    <Compile Include="Other\RNG.cs" />
     <Compile Include="SkyBot.cs" />
     <Compile Include="Modules\Module_Answer.cs" />
     <Compile Include="Modules\Tools\Module_Roll.cs" />

@@ -1,5 +1,6 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 
@@ -9,63 +10,67 @@ namespace SkyBot.Modules
     class Module_Answer : IModule
     {
         private SQLiteConnection connection;
-        private string db_filename;
+        private Configurable db_filename;
 
         public Module_Answer()
         {
             ID = ModuleList.Answer;
             UsableBy = APIList.All;
 
-            Configurables.Add("dbpath");
-            db_filename = Config.Read(ID.ToString(), "dbpath");
+            db_filename = new Configurable()
+            {
+                Name = "dbpath",
+                Parent = this
+            };
+            Configurables.Add(db_filename);
 
-            connection = new SQLiteConnection("Data Source=" + db_filename + ";Version=3;");
+            connection = new SQLiteConnection("Data Source=" + db_filename.Value + ";Version=3;");
         }
 
-        public override string ProcessMessage(string msg)
+        public override string ProcessMessage(ReceivedMessage msg)
         {
             // ignoring triggers
-            if (msg.IndexOf("!", 0, 1) >= 0)
+            if (msg.Text.IndexOf("!", 0, 1) >= 0)
                 return string.Empty;
 
             string result = string.Empty;
 
-            msg.ToLower();
+            string message = msg.Text.ToLower();
 
-            // updating config
-            if (Config.Read(ID.ToString(), "dbpath") != db_filename)
+            try
             {
-                db_filename = Config.Read(ID.ToString(), "dbpath");
-                connection = new SQLiteConnection("Data Source=" + db_filename + ";Version=3;");
-            }
+                if (connection.State != System.Data.ConnectionState.Closed)
+                    connection.Close();
+                connection.Open();
 
-            if (connection.State != System.Data.ConnectionState.Closed)
-                connection.Close();
-            connection.Open();
-
-            using (SQLiteCommand sql_cmd = new SQLiteCommand("SELECT * FROM 'words' WHERE (message='" + msg + "')", connection))
-            using (SQLiteDataReader reader = sql_cmd.ExecuteReader())
-            {
-                List<string> answers = new List<string>();
-
-                if (reader.Read())
+                using (SQLiteCommand sql_cmd = new SQLiteCommand("SELECT * FROM 'words' WHERE (message='" + message + "')", connection))
+                using (SQLiteDataReader reader = sql_cmd.ExecuteReader())
                 {
-                    while (reader.GetString(1) != "")
-                    {
-                        answers.Add(reader.GetString(1));
-                        if (!reader.Read())
-                            break;
-                    }
+                    List<string> answers = new List<string>();
 
-                    if (answers.Count <= 1)
-                        result = answers[0];
-                    else
+                    if (reader.Read())
                     {
-                        result = answers[RNG.Next(0, answers.Count)];
+                        while (reader.GetString(1) != "")
+                        {
+                            answers.Add(reader.GetString(1));
+                            if (!reader.Read())
+                                break;
+                        }
+
+                        if (answers.Count <= 1)
+                            result = answers[0];
+                        else
+                        {
+                            result = answers[RNG.Next(0, answers.Count)];
+                        }
                     }
                 }
+                connection.Close();
             }
-            connection.Close();
+            catch (Exception e)
+            {
+                InformationCollector.Error(this, e.Message);
+            }
 
             return result;
         }

@@ -1,45 +1,35 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 namespace SkyBot.Modules.Tools
 {
     class Module_Test : IModule
     {
-        public string configTest1;
-        public string configTest2;
+        public Configurable configTest1;
 
         public Module_Test()
         {
             ID = ModuleList.Test;
             UsableBy = APIList.All;
 
-            Configurables.Add("dick");
-            configTest1 = Config.Read(ID.ToString(), "dick");
-
-            if (configTest1 == string.Empty)
+            configTest1 = new Configurable()
             {
-                configTest1 = "notbutt!";
-                Config.Write(ID.ToString(), "dick", configTest1);
-            }
+                Name = "dick",
+                Parent = this
+            };
+            Configurables.Add(configTest1);
 
-            Configurables.Add("benis");
-            configTest2 = Config.Read(ID.ToString(), "benis");
-
-            if (configTest2 == string.Empty)
+            if (configTest1.Value == string.Empty)
             {
-                configTest2 = "notbenis!";
-                Config.Write(ID.ToString(), "benis", configTest2);
+                configTest1.Value = "notbutt!";
             }
         }
 
-        public override string ProcessMessage(string msg)
+        public override string ProcessMessage(ReceivedMessage msg)
         {
-            //System.Windows.Forms.MessageBox.Show(configTest1);
-            Config.Write(ID.ToString(), "dick", configTest1);
-
-            if (msg.IndexOf("!", 0, 1) >= 0)
-                return msg + " is a trigger, processed\n";
+            if (msg.Text.IndexOf("!", 0, 1) >= 0)
+                return msg.Text + " is a trigger, processed\n";
             else
-                return msg + " processed\n";
+                return msg.Text + " processed\n";
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 using System;
 using System.Timers;
@@ -63,16 +63,16 @@ namespace SkyBot.APIs
             base.Connect(handle);
 
             Status = APIStatus.Connecting;
-            Parent.Interface.vkStatus.Text = Status.ToString();
-            Parent.Interface.vkStatus.ForeColor = System.Drawing.Color.Yellow;
+            Parent.UI.vkStatus.Text = Status.ToString();
+            Parent.UI.vkStatus.ForeColor = System.Drawing.Color.Yellow;
 
             bool result = Authorize();
 
             if (result)
             {
                 Status = APIStatus.Connected;
-                Parent.Interface.vkStatus.Text = Status.ToString();
-                Parent.Interface.vkStatus.ForeColor = System.Drawing.Color.Green;
+                Parent.UI.vkStatus.Text = Status.ToString();
+                Parent.UI.vkStatus.ForeColor = System.Drawing.Color.Green;
                 receiveTimer.Enabled = true;
             }
             return result;
@@ -82,8 +82,8 @@ namespace SkyBot.APIs
         {
             receiveTimer.Enabled = false;
             Status = APIStatus.Disabled;
-            Parent.Interface.vkStatus.Text = Status.ToString();
-            Parent.Interface.vkStatus.ForeColor = System.Drawing.Color.Red;
+            Parent.UI.vkStatus.Text = Status.ToString();
+            Parent.UI.vkStatus.ForeColor = System.Drawing.Color.Red;
 
             api = new VkApi();
             return true;
@@ -116,15 +116,31 @@ namespace SkyBot.APIs
                     {
                         if (msg.ChatId != null)
                         {
-                            Parent.ProcessMessage(msg.Body, this, (long)msg.ChatId);
+                            Parent.ProcessMessage(new ReceivedMessage()
+                            {
+                                API = this,
+                                Text = msg.Body,
+                                Sender = (long)msg.ChatId,
+                                APIMessageClass = msg
+                            });
+                            //Parent.ProcessMessage(msg.Body, this, (long)msg.ChatId);
                         }
                         else
                         {
-                            Parent.ProcessMessage(msg.Body, this, (long)msg.UserId);
+                            Parent.ProcessMessage(new ReceivedMessage()
+                            {
+                                API = this,
+                                Text = msg.Body,
+                                Sender = (long)msg.UserId,
+                                APIMessageClass = msg
+                            });
+                            //Parent.ProcessMessage(msg.Body, this, (long)msg.UserId);
                         }
                         lastMessage = msg.Id;
                     }
                 }
+                // probably an overkill?
+                api.Account.SetOnline();
             }
         }
 

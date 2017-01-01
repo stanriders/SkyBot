@@ -1,8 +1,8 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 namespace SkyBot
 {
-    abstract public class IConnectionAPI
+    abstract public class IConnectionAPI //: IConfigurable
     {
         public APIStatus Status = APIStatus.Disabled;
         public APIList ID;

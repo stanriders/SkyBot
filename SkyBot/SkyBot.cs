@@ -1,4 +1,4 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace SkyBot
 {
     public class SkyBot
     {
-        public MainForm Interface;
+        public MainForm UI;
         public List<IConnectionAPI> APIs = new List<IConnectionAPI>();
         public List<IModule> Modules = new List<IModule>();
 
@@ -19,7 +19,7 @@ namespace SkyBot
 
         public SkyBot(MainForm form)
         {
-            Interface = form;
+            UI = form;
             Config.Path = System.Windows.Forms.Application.StartupPath + "\\config.ini";
 
             // FIXME: make better way of adding modules
@@ -32,6 +32,8 @@ namespace SkyBot
             //Modules.Add(new Module_Test());
             Modules.Add(new Module_Answer());
             Modules.Add(new Module_Roll());
+            Modules.Add(new Module_Xyu());
+            Modules.Add(new Module_Timer(this));
             Modules.Add(new Module_BasicCommands(this));
             //Modules.Add(new Module_Discord_Announcer(APIs.Find(x => (x.ID == APIList.Discord))));
         }
@@ -48,18 +50,18 @@ namespace SkyBot
             api?.Disconnect();
         }
 
-        public void ProcessMessage( string msg, IConnectionAPI api, object source )
+        public void ProcessMessage( ReceivedMessage msg )
         {
             string result = string.Empty;
 
             foreach (IModule module in Modules)
             {
-                if ((module.UsableBy & api.ID) == api.ID)
-                    result += module.ProcessMessage(msg);
+                if ((module.UsableBy & msg.API.ID) == msg.API.ID && result == string.Empty)
+                    result = module.ProcessMessage(msg);
             }
 
             if (result != string.Empty)
-                api.SendMessage(result, source);
+                msg.API.SendMessage(result, msg.Sender);
         }
     }
 }

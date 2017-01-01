@@ -1,4 +1,4 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 using System;
 using System.Threading;
@@ -30,8 +30,8 @@ namespace SkyBot.APIs
         {
             base.Connect(handle);
             Status = APIStatus.Connecting;
-            Parent.Interface.tgStatus.Text = Status.ToString();
-            Parent.Interface.tgStatus.ForeColor = System.Drawing.Color.Yellow;
+            Parent.UI.tgStatus.Text = Status.ToString();
+            Parent.UI.tgStatus.ForeColor = System.Drawing.Color.Yellow;
 
             token = Config.Read("Telegram", "token");
 
@@ -65,8 +65,8 @@ namespace SkyBot.APIs
             if (result)
             {
                 Status = APIStatus.Connected;
-                Parent.Interface.tgStatus.Text = Status.ToString();
-                Parent.Interface.tgStatus.ForeColor = System.Drawing.Color.Green;
+                Parent.UI.tgStatus.Text = Status.ToString();
+                Parent.UI.tgStatus.ForeColor = System.Drawing.Color.Green;
             }
             else
             {
@@ -82,8 +82,8 @@ namespace SkyBot.APIs
             api.StopReceiving();
 
             Status = APIStatus.Disabled;
-            Parent.Interface.tgStatus.Text = Status.ToString();
-            Parent.Interface.tgStatus.ForeColor = System.Drawing.Color.Red;
+            Parent.UI.tgStatus.Text = Status.ToString();
+            Parent.UI.tgStatus.ForeColor = System.Drawing.Color.Red;
 
             return true;
         }
@@ -94,7 +94,13 @@ namespace SkyBot.APIs
             if (msg == null || msg.Type != MessageType.TextMessage)
                 return;
 
-            Parent.ProcessMessage(msg.Text, this, msg.Chat.Id);
+            Parent.ProcessMessage(new ReceivedMessage()
+            {
+                API = this,
+                Text = msg.Text,
+                Sender = msg.Chat.Id,
+                APIMessageClass = msg
+            });
         }
         public override bool SendMessage(string message, object receiver)
         {

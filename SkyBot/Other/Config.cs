@@ -1,4 +1,4 @@
-﻿// Skybot 2013-2016
+﻿// Skybot 2013-2017
 
 using System.Text;
 using System.Runtime.InteropServices;
@@ -28,6 +28,32 @@ namespace SkyBot
         public static void Write(string section, string key, string value)
         {
             WritePrivateString(section, key, value, Path);
+        }
+    }
+
+    public class Configurable
+    {
+        public IModule Parent;
+        public string Name;
+
+        private bool needsUpdate = true;
+
+        private string pvalue;
+        public string Value
+        {
+            get
+            {
+                if (needsUpdate)
+                {
+                    pvalue = Config.Read(Parent.ID.ToString(), Name);
+                }
+                return pvalue;
+            }
+            set
+            {
+                pvalue = value;
+                Config.Write(Parent.ID.ToString(), Name, value);
+            }
         }
     }
 }
