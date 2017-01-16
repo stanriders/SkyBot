@@ -54,22 +54,36 @@ namespace SkyBot
         }
 
         private bool needsUpdate = true;
-
-        private string pvalue;
+        private string pValue;
         public string Value
         {
             get
             {
                 if (needsUpdate)
                 {
-                    pvalue = Config.Read(Parent.ID.ToString(), Name);
+                    pValue = Config.Read(Parent.ID.ToString(), Name);
+                    if (pValue == "")
+                        return pDefValue;
                 }
-                return pvalue;
+                return pValue;
             }
             set
             {
-                pvalue = value;
+                pValue = value;
                 Config.Write(Parent.ID.ToString(), Name, value);
+            }
+        }
+
+        private string pDefValue;
+        public string DefaultValue
+        {
+            get
+            {
+                return pDefValue;
+            }
+            set
+            {
+                pValue = pDefValue = value;
             }
         }
     }

@@ -17,11 +17,18 @@ namespace SkyBot.Modules
         public Configurable db_filename;
         private Module_Answer_AddServer server;
 
-        public Module_Answer()
+        public Module_Answer() : base()
         {
             ID = ModuleList.Answer;
             UsableBy = APIList.All;
 
+            connection = new SQLiteConnection("Data Source=" + db_filename.Value + ";Version=3;");
+
+            server = new Module_Answer_AddServer(this);
+        }
+
+        public override void SetupConfig()
+        {
             db_filename = new Configurable()
             {
                 Name = "dbpath",
@@ -29,10 +36,6 @@ namespace SkyBot.Modules
                 Parent = this
             };
             Configurables.Add(db_filename);
-
-            connection = new SQLiteConnection("Data Source=" + db_filename.Value + ";Version=3;");
-
-            server = new Module_Answer_AddServer(this);
         }
 
         public override string ProcessMessage(ReceivedMessage msg)
@@ -93,6 +96,7 @@ namespace SkyBot.Modules
         private HttpListener http;
 
         private Configurable mainPageLocation;
+        private Configurable port;
         private static string mainPage;
         private static string dbPath;
 
@@ -106,14 +110,22 @@ namespace SkyBot.Modules
                 ReadableName = "Path to webpage for Adding new entries to DB",
                 Parent = m
             };
+            port = new Configurable()
+            {
+                Name = "webPort",
+                ReadableName = "Web-server Port",
+                DefaultValue = "80",
+                Parent = m
+            };
             m.Configurables.Add(mainPageLocation);
+            m.Configurables.Add(port);
 
             mainPage = Accessories.ReadFileToString(mainPageLocation.Value);
 
             try
             {
                 http = new HttpListener();
-                http.Prefixes.Add("http://*:80/");
+                http.Prefixes.Add("http://*:"+port.Value+"/");
                 http.Start();
             }
             catch (Exception e) { InformationCollector.Error(http, e.Message); }

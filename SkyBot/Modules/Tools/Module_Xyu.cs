@@ -9,11 +9,16 @@ namespace SkyBot.Modules.Tools
         private List<string> phraseArray = new List<string>();
         private Configurable phrasePath;
 
-        public Module_Xyu()
+        public Module_Xyu() : base()
         {
             ID = ModuleList.Xyu;
             UsableBy = APIList.All;
 
+            phraseArray = Accessories.ReadFileToArray(phrasePath.Value);
+        }
+
+        public override void SetupConfig()
+        {
             phrasePath = new Configurable()
             {
                 Name = "dbpath",
@@ -21,8 +26,6 @@ namespace SkyBot.Modules.Tools
                 Parent = this
             };
             Configurables.Add(phrasePath);
-
-            phraseArray = Accessories.ReadFileToArray(phrasePath.Value);
         }
 
         public string ReturnRandomXyu(string word)

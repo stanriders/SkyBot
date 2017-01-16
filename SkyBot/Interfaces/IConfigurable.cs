@@ -7,5 +7,11 @@ namespace SkyBot
     abstract public class IConfigurable
     {
         public List<Configurable> Configurables = new List<Configurable>();
+
+        public IConfigurable()
+        {
+            SetupConfig();
+        }
+        public virtual void SetupConfig() { }
     }
 }
