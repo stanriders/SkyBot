@@ -1,7 +1,6 @@
 ﻿// Skybot 2013-2017
 
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace SkyBot.Modules.Tools
 {
@@ -18,6 +17,7 @@ namespace SkyBot.Modules.Tools
             phrasePath = new Configurable()
             {
                 Name = "dbpath",
+                ReadableName = "Path to Database",
                 Parent = this
             };
             Configurables.Add(phrasePath);

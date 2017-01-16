@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AsyncBridge.Net35, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b3b1c0202c0d6a87, processorArchitecture=MSIL">
       <HintPath>..\packages\AsyncBridge.Net35.0.2.0\lib\net35-Client\AsyncBridge.Net35.dll</HintPath>
@@ -125,6 +128,9 @@
     <Compile Include="Other\InformationCollector.cs" />
     <Compile Include="Interfaces\IConfigurable.cs" />
     <Compile Include="Modules\Module_BasicCommands.cs" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Modules\Tools\Module_Discord_Announcer.cs" />
     <Compile Include="Modules\Tools\Module_Timer.cs" />
     <Compile Include="Modules\Tools\Module_Xyu.cs" />

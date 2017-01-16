@@ -36,6 +36,23 @@ namespace SkyBot
         public IModule Parent;
         public string Name;
 
+        private string pReadable = string.Empty;
+        public string ReadableName
+        {
+            get
+            {
+                if (pReadable == string.Empty)
+                    return Name;
+                else
+                    return pReadable;
+            }
+            set
+            {
+                pReadable = value;
+            }
+               
+        }
+
         private bool needsUpdate = true;
 
         private string pvalue;

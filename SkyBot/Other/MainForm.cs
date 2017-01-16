@@ -113,7 +113,7 @@ namespace SkyBot
                     {
                         AutoSize = true,
                         Location = new System.Drawing.Point(10, 10 + i * 40),
-                        Text = module.Configurables[i].Name
+                        Text = module.Configurables[i].ReadableName
                     });
                     config.Controls.Add(new TextBox
                     {
