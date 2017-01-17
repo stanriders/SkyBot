@@ -147,26 +147,33 @@ namespace SkyBot.Modules
 
         private static void ListenerCallback(IAsyncResult result)
         {
-            HttpListener listener = (HttpListener)result.AsyncState;
-
-            HttpListenerContext context = listener.EndGetContext(result);
-            HttpListenerRequest request = context.Request;
-
-            if (request.HttpMethod == "POST")
+            try
             {
-                ReceivedPOST(request);
+                HttpListener listener = (HttpListener)result.AsyncState;
+
+                HttpListenerContext context = listener.EndGetContext(result);
+                HttpListenerRequest request = context.Request;
+
+                if (request.HttpMethod == "POST")
+                {
+                    ReceivedPOST(request);
+                }
+
+                HttpListenerResponse response = context.Response;
+                string responseString = mainPage;
+
+                byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+
+                response.ContentLength64 = buffer.Length;
+                Stream output = response.OutputStream;
+                output.Write(buffer, 0, buffer.Length);
+
+                output.Close();
             }
-
-            HttpListenerResponse response = context.Response;
-            string responseString = mainPage;
-
-            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-
-            response.ContentLength64 = buffer.Length;
-            Stream output = response.OutputStream;
-            output.Write(buffer, 0, buffer.Length);
-
-            output.Close();
+            catch (Exception e)
+            {
+                InformationCollector.Error(e.Source, e.Message);
+            }
         }
 
         private static void ReceivedPOST(HttpListenerRequest request)
@@ -179,7 +186,7 @@ namespace SkyBot.Modules
                 {
                     string[] text = WebUtility.UrlDecode(reader.ReadToEnd()).Split('&'); // taking word=123&answer=321 and splitting in two
 
-                    string message = text[0].Remove(0, 5); // removing 'word='
+                    string message = text[0].Remove(0, 5).ToLower(); // removing 'word='
                     string answer = text[1].Remove(0, 7); // removing 'answer='
 
                     if (message == "" || answer == "")
@@ -195,21 +202,23 @@ namespace SkyBot.Modules
                     foreach (string s in text)
                         InformationCollector.Info(request, s);
 
-                    SQLiteConnection connection = new SQLiteConnection("Data Source=" + dbPath + ";Version=3;");
-                    try
+                    using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + dbPath + ";Version=3;"))
                     {
-                        if (connection.State != System.Data.ConnectionState.Closed)
-                            connection.Close();
-                        connection.Open();
+                        try
+                        {
+                            if (connection.State != System.Data.ConnectionState.Closed)
+                                connection.Close();
+                            connection.Open();
 
-                        using (SQLiteCommand sql_cmd = new SQLiteCommand("INSERT INTO 'words' (`message`, `answer`) VALUES ('"+ message + "', '"+ answer +"')", connection))
-                            sql_cmd.ExecuteNonQuery();
-                        
-                        connection.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        InformationCollector.Error(connection, e.Message);
+                            using (SQLiteCommand sql_cmd = new SQLiteCommand("INSERT INTO 'words' (`message`, `answer`) VALUES ('" + message + "', '" + answer + "')", connection))
+                                sql_cmd.ExecuteNonQuery();
+
+                            connection.Close();
+                        }
+                        catch (Exception e)
+                        {
+                            InformationCollector.Error(connection, e.Message);
+                        }
                     }
                 }
             }

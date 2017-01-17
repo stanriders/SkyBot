@@ -40,5 +40,16 @@ namespace SkyBot
             catch (Exception e) { InformationCollector.Error("ReadFileToArray", e.Message); }
             return result;
         }
+
+        public static void WriteStringToFile(string text, string path, bool encoding = false)
+        {
+            try
+            {
+                StreamWriter fs = new StreamWriter(path, true, (!encoding) ? System.Text.Encoding.GetEncoding(1251) : System.Text.Encoding.GetEncoding(65001));
+                fs.Write(text);
+                fs.Close();
+            }
+            catch (Exception e) { InformationCollector.Error("ReadFileToArray", e.Message); }
+        }
     }
 }
