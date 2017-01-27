@@ -27,6 +27,11 @@ namespace SkyBot.Modules
             server = new Module_Answer_AddServer(this);
         }
 
+        public override void Cleanup()
+        {
+            server.Cleanup();
+        }
+
         public override void SetupConfig()
         {
             db_filename = new Configurable()
@@ -80,7 +85,7 @@ namespace SkyBot.Modules
             }
             catch (Exception e)
             {
-                InformationCollector.Error(this, e.Message);
+                InformationCollector.Error(e.Source, e.Message);
             }
 
             return result;
@@ -135,13 +140,17 @@ namespace SkyBot.Modules
 
             dbPath = m.db_filename.Value;
         }
-
+        public void Cleanup()
+        {
+            http.Stop();
+            thread.Abort();
+        }
         private void Listen()
         {
             while (http.IsListening)
             {
                 IAsyncResult result = http.BeginGetContext(new AsyncCallback(ListenerCallback), http);
-                result.AsyncWaitHandle.WaitOne(); // FIXME: endless loop on app exit until received request!!!
+                result.AsyncWaitHandle.WaitOne();
             }
         }
 

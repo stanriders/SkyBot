@@ -132,6 +132,8 @@
             // 
             // vkSave
             // 
+            this.vkSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.vkSave.Location = new System.Drawing.Point(309, 33);
             this.vkSave.Name = "vkSave";
             this.vkSave.Size = new System.Drawing.Size(59, 23);
@@ -199,6 +201,8 @@
             // 
             // moduleList
             // 
+            this.moduleList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.moduleList.FormattingEnabled = true;
             this.moduleList.Location = new System.Drawing.Point(403, 25);
             this.moduleList.Name = "moduleList";
@@ -209,6 +213,8 @@
             // 
             // l4
             // 
+            this.l4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.l4.AutoSize = true;
             this.l4.Location = new System.Drawing.Point(400, 9);
             this.l4.Name = "l4";
@@ -241,6 +247,8 @@
             // 
             // tgSave
             // 
+            this.tgSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tgSave.Location = new System.Drawing.Point(309, 34);
             this.tgSave.Name = "tgSave";
             this.tgSave.Size = new System.Drawing.Size(59, 23);
@@ -251,6 +259,8 @@
             // 
             // tgToken
             // 
+            this.tgToken.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tgToken.Location = new System.Drawing.Point(71, 36);
             this.tgToken.Name = "tgToken";
             this.tgToken.Size = new System.Drawing.Size(232, 20);
@@ -268,14 +278,18 @@
             // 
             // debugText
             // 
+            this.debugText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.debugText.Location = new System.Drawing.Point(13, 259);
             this.debugText.MaxLength = 65534;
             this.debugText.Multiline = true;
             this.debugText.Name = "debugText";
             this.debugText.ReadOnly = true;
             this.debugText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.debugText.Size = new System.Drawing.Size(510, 119);
+            this.debugText.Size = new System.Drawing.Size(510, 115);
             this.debugText.TabIndex = 16;
+            this.debugText.TabStop = false;
             // 
             // groupBox3
             // 
@@ -302,6 +316,8 @@
             // 
             // discordSave
             // 
+            this.discordSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.discordSave.Location = new System.Drawing.Point(309, 34);
             this.discordSave.Name = "discordSave";
             this.discordSave.Size = new System.Drawing.Size(59, 23);
@@ -312,6 +328,8 @@
             // 
             // discordToken
             // 
+            this.discordToken.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.discordToken.Location = new System.Drawing.Point(71, 36);
             this.discordToken.Name = "discordToken";
             this.discordToken.Size = new System.Drawing.Size(232, 20);

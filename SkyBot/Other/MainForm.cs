@@ -149,5 +149,12 @@ namespace SkyBot
                 config.Show();
             }
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Skybot.Cleanup();
+
+            base.OnFormClosing(e);
+        }
     }
 }

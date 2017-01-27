@@ -2,7 +2,7 @@
 
 namespace SkyBot
 {
-    abstract public class IConnectionAPI //: IConfigurable
+    abstract public class IConnectionAPI : IBaseModule
     {
         public APIStatus Status = APIStatus.Disabled;
         public APIList ID;

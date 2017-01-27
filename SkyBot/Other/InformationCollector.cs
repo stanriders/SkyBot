@@ -13,11 +13,6 @@ namespace SkyBot
         {
             string result = "(" + DateTime.Now + ") " + source.GetType().Name + ": " + text + Environment.NewLine;
 
-            if (Form.InvokeRequired)
-                Form.Invoke( (MethodInvoker) delegate { Form.debugText.Text += result; });
-            else
-                Form.debugText.Text += result;
-
             Log(result);
         }
 
@@ -25,16 +20,21 @@ namespace SkyBot
         {
             string result = source.GetType().Name + ": " + text + Environment.NewLine;
 
-            if (Form.InvokeRequired)
-                Form.Invoke((MethodInvoker)delegate { Form.debugText.Text += result; });
-            else
-                Form.debugText.Text += result;
-
             Log(result);
         }
 
         public static void Log(string text)
         {
+            if (!Form.IsDisposed)
+            {
+                if (Form.InvokeRequired)
+                    Form.Invoke((MethodInvoker)delegate {
+                        Form.debugText.Text += text;
+                    });
+                else
+                    Form.debugText.Text += text;
+            }
+
             Accessories.WriteStringToFile(text, Application.StartupPath + "/log.txt");
         }
     }

@@ -41,6 +41,8 @@ namespace SkyBot.APIs
                 api = new TelegramBotClient(token);
 
                 api.OnMessage += ReceiveMessage;
+                api.OnReceiveError += OnError;
+                api.OnReceiveGeneralError += OnError;
             }
             catch (Exception ex)
             {
@@ -53,6 +55,11 @@ namespace SkyBot.APIs
                 {
                     api.TestApiAsync();
                     api.StartReceiving();
+
+                    if(api.IsReceiving)
+                        InformationCollector.Info(this, "Receiving...");
+                    else
+                        InformationCollector.Error(this, "NOT receiving...");
                 }
                 catch (Exception ex)
                 {
@@ -78,8 +85,8 @@ namespace SkyBot.APIs
         }
         public override bool Disconnect()
         {
-            receiveThread.Abort();
             api.StopReceiving();
+            receiveThread.Abort();
 
             Status = APIStatus.Disabled;
             Parent.UI.tgStatus.Text = Status.ToString();
@@ -106,6 +113,15 @@ namespace SkyBot.APIs
         {
             api.SendTextMessageAsync((long)receiver, message);
             return true;
+        }
+
+        private void OnError(object sender, ReceiveErrorEventArgs receiveEventArgs)
+        {
+            InformationCollector.Error(this, receiveEventArgs.ApiRequestException.Message);
+        }
+        private void OnError(object sender, ReceiveGeneralErrorEventArgs receiveEventArgs)
+        {
+            InformationCollector.Error(this, receiveEventArgs.Exception.Message);
         }
     }
 }

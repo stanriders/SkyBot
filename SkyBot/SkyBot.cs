@@ -38,6 +38,21 @@ namespace SkyBot
             //Modules.Add(new Module_Discord_Announcer(APIs.Find(x => (x.ID == APIList.Discord))));
         }
 
+        public void Cleanup()
+        {
+            foreach (IModule m in Modules)
+            {
+                m.Cleanup();
+            }
+            foreach (IConnectionAPI api in APIs)
+            {
+                if (api.Status != APIStatus.Disabled)
+                    api.Disconnect();
+
+                api.Cleanup();
+            }
+        }
+
         public void EnableAPI(APIList id)
         {
             IConnectionAPI api = APIs.Find(x => (x.ID == id && x.Status == APIStatus.Disabled));

@@ -2,8 +2,6 @@
 
 using System;
 using DSharpPlus;
-using DSharpPlus.Events;
-using DSharpPlus.Objects;
 
 namespace SkyBot.APIs
 {
@@ -29,13 +27,16 @@ namespace SkyBot.APIs
 
             bool result = false;
 
-            api = new DiscordClient(token, true);
+            api = new DiscordClient(new DiscordConfig()
+            {
+                AutoReconnect = true,
+                Token = token,
+            });
+
             try
             {
-                api.MessageReceived += new EventHandler<DiscordMessageEventArgs>(ReceiveMessages);
-                api.SendLoginRequest();
+                api.MessageCreated += new EventHandler<MessageCreateEventArgs>(ReceiveMessages);
                 api.Connect();
-                api.Autoconnect = true;
                 result = true;
             }
             catch (Exception ex)
@@ -55,7 +56,7 @@ namespace SkyBot.APIs
         }
         public override bool Disconnect()
         {
-            api.Logout();
+            api.Disconnect();
 
             Status = APIStatus.Disabled;
             Parent.UI.discordStatus.Text = Status.ToString();
@@ -63,12 +64,12 @@ namespace SkyBot.APIs
 
             return true;
         }
-        private void ReceiveMessages(object sender, DiscordMessageEventArgs e)
+        private void ReceiveMessages(object sender, MessageCreateEventArgs e)
         {
             Parent.ProcessMessage(new ReceivedMessage()
             {
                 API = this,
-                Text = e.MessageText,
+                Text = e.Message.Content,
                 Sender = e.Channel,
                 APIMessageClass = e.Message
             });
@@ -77,7 +78,7 @@ namespace SkyBot.APIs
         {
             try
             {
-                api.SendMessageToChannel(message, (DiscordChannel)receiver, false);
+                api.SendMessage( (DiscordChannel)receiver, message, false);
             }
             catch (Exception ex)
             {

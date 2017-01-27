@@ -2,7 +2,7 @@
 
 namespace SkyBot
 {
-    abstract public class IModule : IConfigurable
+    abstract public class IModule : IBaseModule
     {
         public ModuleList ID;
         public APIList UsableBy = APIList.None;
