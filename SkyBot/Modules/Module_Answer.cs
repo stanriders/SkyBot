@@ -46,7 +46,7 @@ namespace SkyBot.Modules
         public override string ProcessMessage(ReceivedMessage msg)
         {
             // ignoring triggers
-            if (msg.Text.IndexOf("!", 0, 1) >= 0)
+            if (msg.Text.IndexOf(GetTrigger(msg.API), 0, 1) >= 0)
                 return string.Empty;
 
             string result = string.Empty;

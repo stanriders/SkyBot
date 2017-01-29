@@ -11,14 +11,24 @@ namespace SkyBot
 
         public static void Error(object source, string text)
         {
-            string result = "(" + DateTime.Now + ") " + source.GetType().Name + ": " + text + Environment.NewLine;
+            string sourceName = source.GetType().Name;
+
+            if (sourceName == "String")
+                sourceName = (string)source;
+
+            string result = "(" + DateTime.Now + ") " + sourceName + ": " + text + Environment.NewLine;
 
             Log(result);
         }
 
         public static void Info(object source, string text)
         {
-            string result = source.GetType().Name + ": " + text + Environment.NewLine;
+            string sourceName = source.GetType().Name;
+
+            if (sourceName == "String")
+                sourceName = (string)source;
+
+            string result = sourceName + ": " + text + Environment.NewLine;
 
             Log(result);
         }

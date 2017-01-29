@@ -5,6 +5,7 @@ namespace SkyBot.Modules
     class Module_BasicCommands : IModule
     {
         private SkyBot bot;
+
         public Module_BasicCommands(SkyBot b)
         {
             bot = b;
@@ -14,13 +15,15 @@ namespace SkyBot.Modules
         }
         public override string ProcessMessage(ReceivedMessage msg)
         {
+            string trigger = GetTrigger(msg.API);
+
             // only triggers
-            if (msg.Text.IndexOf("!", 0, 1) >= 0)
+            if (msg.Text.IndexOf(trigger, 0, 1) >= 0)
             {
-                if (msg.Text == "!help")
+                if (msg.Text == trigger + "help")
                     return "Никто тебе не поможет";
 
-                else if (msg.Text == "!status")
+                else if (msg.Text == trigger + "status")
                     return Status();
 
                 else
