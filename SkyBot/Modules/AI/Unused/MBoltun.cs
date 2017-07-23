@@ -14,7 +14,7 @@ namespace SkyBot.Modules.AI
         // TODO: добавить управление ньюфажеством через команды
         // задержка перед ответом бота для ньюфагов чата
         public bool _newfag = false;
-        private string _dbFolderPath = "\\plugins\\MBoltun.db";
+        private string _dbFolderPath = "\\plugins\\mind.db";
 
         private string _newfagAnswer;
         private Timer _newfagTimer;
