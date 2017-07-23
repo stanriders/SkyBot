@@ -121,6 +121,7 @@ namespace SkyBot.APIs
                                 API = this,
                                 Text = msg.Body,
                                 Sender = (long)msg.ChatId,
+                                Title = msg.UserId.ToString(),
                                 APIMessageClass = msg
                             });
                             //Parent.ProcessMessage(msg.Body, this, (long)msg.ChatId);
@@ -132,6 +133,7 @@ namespace SkyBot.APIs
                                 API = this,
                                 Text = msg.Body,
                                 Sender = (long)msg.UserId,
+                                Title = msg.UserId.ToString(),
                                 APIMessageClass = msg
                             });
                             //Parent.ProcessMessage(msg.Body, this, (long)msg.UserId);
