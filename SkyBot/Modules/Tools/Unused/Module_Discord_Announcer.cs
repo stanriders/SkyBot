@@ -21,10 +21,10 @@ namespace SkyBot.Modules
             ID = ModuleList.Announcer;
 
             api = client.api;
-            api.VoiceStateUpdate += VoiceStateUpdate;
+            //api.VoiceStateUpdate += VoiceStateUpdate;
         }
 
-        private void VoiceStateUpdate(object sender, DiscordVoiceStateUpdateEventArgs e)
+        private void VoiceStateUpdate(object sender, VoiceStateUpdateEventArgs e)
         {
         }
 
