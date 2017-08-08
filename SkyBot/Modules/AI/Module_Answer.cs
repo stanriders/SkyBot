@@ -89,7 +89,7 @@ namespace SkyBot.Modules.AI
             }
 
             // for backward compatibility with old base 
-            result = result.Replace("%username%", msg.Title);
+            result = result.Replace("%username%", msg.Username);
             return result;
         }
     }

@@ -29,7 +29,6 @@ namespace SkyBot.Modules
                 switch (cmd)
                 {
                     case "help":
-                        //return "Никто тебе не поможет";
                         return "Лучше попроси рассказать анекдот";
 
                     case "status":
@@ -45,9 +44,10 @@ namespace SkyBot.Modules
                     case "log":
                         return ChangeLog();
 
-                    default:
-                        //return "Ничо непонял лол";
-                        return "Спроси у своей мамы, кто ее кумир";
+                    //default:
+                    //    return !cmd.Contains("set")
+                    //        ? "Спроси у своей мамы, кто ее кумир"
+                    //        : string.Empty;
                 }
             }
             return string.Empty;

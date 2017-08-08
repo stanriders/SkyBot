@@ -13,9 +13,9 @@ namespace SkyBot.Modules.AI.Background
 {
     class MYouTube : IModule
     {
-        // TODO: добавить управление интервалом через команды
-        // шанс дропа 1 к указанному числу, 240 - 4 часа, чек раз в минуту
-        public int _interval = 240;
+        // probability of triggering bot that defined as one from the specified number
+        // this value is checked once a minute
+        private int _interval = 240;
         private string _dbFolderPath = "\\plugins\\MYouTube.db";
 
         private Dictionary<string, List<string>> _textList = new Dictionary<string, List<string>>();
@@ -153,6 +153,27 @@ namespace SkyBot.Modules.AI.Background
 
         public override string ProcessMessage(ReceivedMessage msg)
         {
+            string trigger = GetTrigger(msg.API);
+
+            // only triggers
+            if (msg.Text.IndexOf(trigger, 0, 1) >= 0)
+            {
+                string cmd = msg.Text.Remove(0, 1);
+
+                if (cmd.Contains("set youtube interval"))
+                {
+                    try
+                    {
+                        _interval = Convert.ToInt32(cmd
+                            .Replace("set youtube interval ", ""));
+                        return "New youtube interval equil " + _interval;
+                    }
+                    catch (Exception)
+                    {
+                        return "Аккуратней играйся с такими командами блеать!";
+                    }
+                }
+            }
             return string.Empty;
         }
     }

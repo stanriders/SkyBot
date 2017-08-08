@@ -32,6 +32,7 @@ namespace SkyBot
         YouTube,
         Boltun,
         Organiser,
-        Notepad
+        Notepad,
+        FicBook
     }
 }

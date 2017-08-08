@@ -92,7 +92,7 @@ namespace SkyBot.Modules.AI
 
             string message = msg.Text.ToLower();
 
-            return AnalyseMessage(message, msg.Sender, msg.Title);
+            return AnalyseMessage(message, msg.Sender, msg.Username);
         }
 
         private void LoadBase(object chatId)

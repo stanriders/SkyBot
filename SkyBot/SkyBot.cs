@@ -41,6 +41,7 @@ namespace SkyBot
             Modules.Add(new MTrigger());
             Modules.Add(new MRandom(this));
             Modules.Add(new MYouTube(this));
+            Modules.Add(new MFicBook());
             //Modules.Add(new MBoltun());
             Modules.Add(new Module_BasicCommands(this));
             //Modules.Add(new Module_Discord_Announcer(APIs.Find(x => (x.ID == APIList.Discord))));

@@ -63,7 +63,7 @@ namespace SkyBot.Modules.Tools
                     else if (Regex.IsMatch(message, @"^n(ote)?p(ad)?\s+"))
                     {
                         message = new Regex(@"^n(ote)?p(ad)?\s+").Replace(message, string.Empty);
-                        return ProcessNotepadWrite(message, msg.Title, msg.Sender);
+                        return ProcessNotepadWrite(message, msg.Username, msg.Sender);
                     }
                 }
             }

@@ -54,6 +54,10 @@
       <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.11.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.11\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.XmlTransform, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
       <Private>True</Private>
@@ -123,6 +127,7 @@
     <Compile Include="Modules\AI\Module_Answer.cs" />
     <Compile Include="Modules\AI\MTrigger.cs" />
     <Compile Include="Modules\AI\Unused\MBoltun.cs" />
+    <Compile Include="Modules\Tools\MFicBook.cs" />
     <Compile Include="Modules\Tools\MNotepad.cs" />
     <Compile Include="Modules\Tools\MOrganiser.cs" />
     <Compile Include="Modules\Tools\Unused\Module_Discord_Announcer.cs" />
