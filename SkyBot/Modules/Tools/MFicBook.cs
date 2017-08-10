@@ -10,8 +10,8 @@ namespace SkyBot.Modules.Tools
 {
     class MFicBook : IModule
     {
-        private string _cfgPath =  "\\plugins\\plugins\\ficbook.cfg";
-        private string _archivePath = "\\plugins\\archive";
+        private string _cfgPath =  "\\plugins\\MFicBook.cfg";
+        private string _archivePath = "\\archive";
         private int _readLimit = 4096;
         private int _previewLimit = 128;
 
@@ -131,7 +131,7 @@ namespace SkyBot.Modules.Tools
 
             _currentAuthor = Config.Read(section, "author", _cfgPath);
             _currentTitle = Config.Read(section, "title", _cfgPath);
-            _currentPage = int.Parse(Config.Read(section, "page", _cfgPath));
+            _currentPage = Convert.ToInt32(Config.Read(section, "page", _cfgPath));
 
             return ReadPage(_currentAuthor, _currentTitle, _currentPage);
         }
