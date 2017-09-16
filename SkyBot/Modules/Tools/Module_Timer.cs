@@ -20,7 +20,7 @@ namespace SkyBot.Modules.Tools
         public override string ProcessMessage(ReceivedMessage msg)
         {
             string result = string.Empty;
-            if (msg.Text.IndexOf(GetTrigger(msg.API), 0, 1) >= 0)
+            if (msg.Text.IndexOf(msg.API.GetTrigger(), 0, 1) >= 0)
             {
                 string cmd = msg.Text.Remove(0, 1);
 

@@ -64,6 +64,8 @@ namespace SkyBot
                     pValue = Config.Read(Parent.ID.ToString(), Name);
                     if (pValue == "")
                         return pDefValue;
+
+                    needsUpdate = false;
                 }
                 return pValue;
             }

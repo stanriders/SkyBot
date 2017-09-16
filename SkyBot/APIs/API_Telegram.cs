@@ -21,11 +21,13 @@ namespace SkyBot.APIs
 
         private Thread receiveThread;
 
+        public override string GetTrigger() { return "/"; }
+
         public API_Telegram()
         {
             ID = APIList.Telegram;
-
         }
+        
         public override bool Connect(SkyBot handle)
         {
             base.Connect(handle);

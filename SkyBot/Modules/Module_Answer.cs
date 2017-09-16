@@ -45,11 +45,11 @@ namespace SkyBot.Modules
 
         public override string ProcessMessage(ReceivedMessage msg)
         {
-            // ignoring triggers
-            if (msg.Text.IndexOf(GetTrigger(msg.API), 0, 1) >= 0)
-                return string.Empty;
-
             string result = string.Empty;
+
+            // ignoring triggers
+            if (msg.Text.IndexOf(msg.API.GetTrigger(), 0, 1) >= 0)
+                return result;
 
             string message = msg.Text.ToLower();
 
@@ -107,23 +107,23 @@ namespace SkyBot.Modules
 
         private Thread thread;
 
-        public Module_Answer_AddServer(Module_Answer m)
+        public Module_Answer_AddServer(Module_Answer parent)
         {
             mainPageLocation = new Configurable()
             {
                 Name = "WebPagePath",
                 ReadableName = "Path to webpage for Adding new entries to DB",
-                Parent = m
+                Parent = parent
             };
             port = new Configurable()
             {
                 Name = "webPort",
                 ReadableName = "Web-server Port",
                 DefaultValue = "80",
-                Parent = m
+                Parent = parent
             };
-            m.Configurables.Add(mainPageLocation);
-            m.Configurables.Add(port);
+            parent.Configurables.Add(mainPageLocation);
+            parent.Configurables.Add(port);
 
             mainPage = Accessories.ReadFileToString(mainPageLocation.Value);
 
@@ -138,7 +138,7 @@ namespace SkyBot.Modules
             thread = new Thread(Listen);
             thread.Start();
 
-            dbPath = m.db_filename.Value;
+            dbPath = parent.db_filename.Value;
         }
         public void Cleanup()
         {
@@ -185,6 +185,14 @@ namespace SkyBot.Modules
             }
         }
 
+        private static bool IsBanned(string message)
+        {
+            if (message == "лол")
+                return true;
+
+            return false;
+        }
+
         private static void ReceivedPOST(HttpListenerRequest request)
         {
             if (!request.HasEntityBody) return;
@@ -198,7 +206,7 @@ namespace SkyBot.Modules
                     string message = text[0].Remove(0, 5).ToLower(); // removing 'word='
                     string answer = text[1].Remove(0, 7); // removing 'answer='
 
-                    if (message == "" || answer == "")
+                    if (message == "" || answer == "" || IsBanned(message))
                         return;
 
                     /*	$sql = "

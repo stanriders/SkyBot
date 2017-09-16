@@ -123,7 +123,6 @@ namespace SkyBot.APIs
                                 Sender = (long)msg.ChatId,
                                 APIMessageClass = msg
                             });
-                            //Parent.ProcessMessage(msg.Body, this, (long)msg.ChatId);
                         }
                         else
                         {
@@ -134,7 +133,6 @@ namespace SkyBot.APIs
                                 Sender = (long)msg.UserId,
                                 APIMessageClass = msg
                             });
-                            //Parent.ProcessMessage(msg.Body, this, (long)msg.UserId);
                         }
                         lastMessage = msg.Id;
                     }

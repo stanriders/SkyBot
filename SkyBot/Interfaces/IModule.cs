@@ -8,14 +8,6 @@ namespace SkyBot
         public APIList UsableBy = APIList.None;
 
         abstract public string ProcessMessage(ReceivedMessage msg);
-
-        public string GetTrigger(IConnectionAPI api)
-        {
-            if (api.ID == APIList.Telegram)
-                return "/";
-            else
-                return "!";
-        }
     }
 
     public enum ModuleList

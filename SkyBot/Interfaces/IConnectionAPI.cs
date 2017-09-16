@@ -8,6 +8,8 @@ namespace SkyBot
         public APIList ID;
         public SkyBot Parent;
 
+        public virtual string GetTrigger() { return "!"; }
+
         public virtual bool Connect(SkyBot handle)
         {
             Parent = handle;
