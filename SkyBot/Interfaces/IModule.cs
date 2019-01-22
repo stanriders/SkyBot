@@ -18,6 +18,13 @@ namespace SkyBot
         Announcer,
         Timer,
         Xyu,
-        Test
+        Test,
+        Trigger,
+        Random,
+        YouTube,
+        Boltun,
+        Organiser,
+        Notepad,
+        FicBook
     }
 }

@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-namespace SkyBot.Modules
+namespace SkyBot.Modules.AI
 {
     // Main answering module
     class Module_Answer : IModule
@@ -88,6 +88,8 @@ namespace SkyBot.Modules
                 InformationCollector.Error(e.Source, e.Message);
             }
 
+            // for backward compatibility with old base 
+            result = result.Replace("%username%", msg.Username);
             return result;
         }
     }

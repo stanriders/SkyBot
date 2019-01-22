@@ -16,18 +16,18 @@ namespace SkyBot
 
         public static string Path;
 
-        public static string Read(string section, string key)
+        public static string Read(string section, string key, string path = "")
         {
             StringBuilder buffer = new StringBuilder(1024);
 
-            GetPrivateString(section, key, null, buffer, 1024, Path);
+            GetPrivateString(section, key, null, buffer, 1024, path == "" ? Path : path);
 
             return buffer.ToString();
         }
 
-        public static void Write(string section, string key, string value)
+        public static void Write(string section, string key, string value, string path = "")
         {
-            WritePrivateString(section, key, value, Path);
+            WritePrivateString(section, key, value, path == "" ? Path : path);
         }
     }
 

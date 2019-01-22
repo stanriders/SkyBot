@@ -5,7 +5,9 @@ using System.Collections.Generic;
 
 using SkyBot.APIs;
 using SkyBot.Modules;
+using SkyBot.Modules.AI;
 using SkyBot.Modules.Tools;
+using SkyBot.Modules.AI.Background;
 
 namespace SkyBot
 {
@@ -23,8 +25,8 @@ namespace SkyBot
             Config.Path = System.Windows.Forms.Application.StartupPath + "\\config.ini";
 
             // FIXME: make better way of adding modules
-            APIs.Add(new API_Test());
-            APIs.Add(new API_Skype());
+            //APIs.Add(new API_Test());
+            //APIs.Add(new API_Skype());
             APIs.Add(new API_Telegram());
             APIs.Add(new API_Discord());
             APIs.Add(new API_VK());
@@ -34,6 +36,13 @@ namespace SkyBot
             Modules.Add(new Module_Roll());
             Modules.Add(new Module_Xyu());
             Modules.Add(new Module_Timer(this));
+            Modules.Add(new MOrganiser(this));
+            Modules.Add(new MNotepad());
+            Modules.Add(new MTrigger());
+            Modules.Add(new MRandom(this));
+            Modules.Add(new MYouTube(this));
+            Modules.Add(new MFicBook());
+            //Modules.Add(new MBoltun());
             Modules.Add(new Module_BasicCommands(this));
             //Modules.Add(new Module_Discord_Announcer(APIs.Find(x => (x.ID == APIList.Discord))));
         }

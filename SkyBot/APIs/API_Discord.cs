@@ -35,8 +35,8 @@ namespace SkyBot.APIs
 
             try
             {
-                api.MessageCreated += new EventHandler<MessageCreateEventArgs>(ReceiveMessages);
-                api.Connect();
+                //api.MessageCreated += new AsyncEventHandler<MessageCreateEventArgs>(ReceiveMessages);
+                api.ConnectAsync();
                 result = true;
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace SkyBot.APIs
         }
         public override bool Disconnect()
         {
-            api.Disconnect();
+            api.Dispose();
 
             Status = APIStatus.Disabled;
             Parent.UI.discordStatus.Text = Status.ToString();
@@ -78,7 +78,7 @@ namespace SkyBot.APIs
         {
             try
             {
-                api.SendMessage( (DiscordChannel)receiver, message, false);
+                api.SendMessageAsync( (DiscordChannel)receiver, message, false);
             }
             catch (Exception ex)
             {
